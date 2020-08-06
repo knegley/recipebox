@@ -1,3 +1,4 @@
+<h5><a href="{% url 'recipe_home' %}">home</a></h5>
 <h1>Author Details</h1>
 <h2>Author: {{author.name}}</h2>
 <h2>Bio: {{author.bio}}</h2>
@@ -6,7 +7,7 @@
 <ol>
   <h3>{{author.name}}'s Recipes:</h3>
   {% for recipe in author_recipes %}
-  <li>{{recipe.title}}</li>
+  <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
 
   {% endfor %}
 </ol>
