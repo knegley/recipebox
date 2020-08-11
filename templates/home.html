@@ -1,5 +1,8 @@
+<nav>
+  <a href="{% url 'add_recipe' %}">Add Recipe</a>
+  <a href="{% url 'add_author' %}">Add Author</a>
+</nav>
 <h1>Recipes</h1>
-
 <ul>
   {% for recipe in recipes%}
 
