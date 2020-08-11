@@ -7,5 +7,7 @@ urlpatterns = [
          views.author_detailed, name="author_details"),
     path("recipe/<int:recipe_id>/",
          views.recipe_detailed, name="recipe_details"),
+    path("addauthor/", views.add_author, name="add_author"),
+    path("addrecipe/", views.add_recipe, name="add_recipe"),
 
 ]
