@@ -9,7 +9,7 @@ urlpatterns = [
          views.recipe_detailed, name="recipe_details"),
     path("addauthor/", views.add_author, name="add_author"),
     path("addrecipe/", views.add_recipe, name="add_recipe"),
-    path("signup/", views.signup_view, name="signup_view"),
+    #     path("signup/", views.signup_view, name="signup_view"),
     path("login/", views.login_view, name="login_view"),
     path("logout/", views.logout_view, name="logout_view")
 
