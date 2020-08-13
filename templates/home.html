@@ -1,6 +1,13 @@
 <nav>
   <a href="{% url 'add_recipe' %}">Add Recipe</a>
   <a href="{% url 'add_author' %}">Add Author</a>
+
+  {% if user.is_authenticated %}
+
+    <a href="{% url 'logout_view' %}"><input type="button" value="Logout"></input></a>
+
+  {% endif %}
+
 </nav>
 <h6>Authenticated: {{request.user.is_authenticated}}</h6>
 <h1>Recipes</h1>

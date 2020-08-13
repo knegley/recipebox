@@ -1,8 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from recipe_app.models import Recipe, Author
-from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm
+from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm, SignUpForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.admin.views.decorators import staff_member_required
 # Create your views here.
 
 
@@ -27,7 +29,19 @@ def author_detailed(request, author_id):
                   context={"author": author, "author_recipes": author_recipes})
 
 
-@login_required
+def signup_view(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        data = form.cleaned_data
+        new_user = User.objects.create_user(username=data.get(
+            "username"), password=data.get("password"))
+        login(request, new_user)
+        return HttpResponseRedirect(reverse("recipe_home"))
+    form = SignUpForm()
+    return render(request, "generic_form.html", {"form": form})
+
+
+@staff_member_required
 def add_author(request):
     form = AddAuthorForm()
     if request.method == "POST":
@@ -47,14 +61,14 @@ def add_author(request):
 @login_required
 def add_recipe(request):
     form = AddRecipeForm()
-    print(dir(request))
+    # print(dir(request))
     if request.method == "POST":
         form = AddRecipeForm(request.POST)
     if form.is_valid():
         data = form.cleaned_data
         Recipe.objects.create(
             title=data.get("title"),
-            author=data.get("author"),
+            author=request.user.author,
             description=data.get("description"),
             time_required=data.get("time_required"),
             instructions=data.get("instructions")
@@ -69,12 +83,16 @@ def login_view(request):
         form = LoginForm(request.POST)
 
         if form.is_valid:
-            data = form.cleaned_data
+
+            data = request.POST
+            # print(data)
             user = authenticate(request, username=data.get(
                 "username"), password=data.get("password"))
+
             if user:
                 login(request, user)
-                return HttpResponseRedirect(reverse("recipe_home"))
+
+                return HttpResponseRedirect(redirect_to=request.GET.get("next", reverse("recipe_home")))
     form = LoginForm()
     return render(request, "generic_form.html", {"form": form})
 
