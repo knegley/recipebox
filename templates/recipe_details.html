@@ -1,4 +1,7 @@
 <h5><a href="{% url 'recipe_home' %}">home</a></h5>
+{% if request.user %}
+  <h5><a href="{% url 'favorite_recipe' recipe_id=recipe.id %}">Favorite Recipe</a></h5>
+{% endif %}
 <h1>Recipe Details</h1>
 <h3>Title: {{recipe.title}}</h3>
 <h3>Description: {{recipe.description}}</h3>
@@ -8,3 +11,6 @@
   Author:
   <a href="/author/{{recipe.author.id}}">{{recipe.author}}</a>
 </h3>
+{% if request.user.is_staff or request.user.author == recipe.author %}
+  <h6><a href="{% url 'edit_recipe' recipe_id=recipe.id %}">edit recipe</a></h6>
+{% endif %}

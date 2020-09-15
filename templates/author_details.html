@@ -10,4 +10,9 @@
   <li><a href="/recipe/{{recipe.id}}">{{recipe.title}}</a></li>
 
   {% endfor %}
+
+  <h3>{{author.name}}'s Favorite Recipes:</h3>
+  {% for favorite in favorites %}
+    <li><a href="{% url 'recipe_details' recipe_id=favorite.id %}">{{favorite.title}}</a></li>
+  {% endfor %}
 </ol>
