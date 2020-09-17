@@ -21,6 +21,12 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
+class UpdateRecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ["title", "description", "time_required", "instructions"]
+
+
 # class SignUpForm(forms.Form):
 #     username = forms.CharField(max_length=150)
 #     password = forms.CharField(widget=forms.PasswordInput)
